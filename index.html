@@ -1,313 +1,565 @@
+
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音视频网站资源</title>
+    <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8，支持中文字符 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 确保页面在移动设备上适配 -->
+    <title>Kevinludashi的网址收藏</title> <!-- 网页标题 -->
+    <link rel="stylesheet" href="styles.css"> <!-- 引入外部样式表 -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* 确保页面高度至少为视口高度 */
+        /* 页面基本样式 */
+        body, html {
+            height: 100%; /* 确保 body 和 html 的高度为 100% */
+            margin: 0; /* 清除默认的边距 */
+            padding: 0; /* 清除默认的填充 */
         }
-        h1 {
-            margin-top: 20px;
-            color: #333;
-            margin: 0 auto;
+        
+        /* 容器样式 */
+        .container {
+            width: 100%; /* 容器宽度占满屏幕 */
+            min-height: 100vh; /* 容器最小高度为视口高度 */
+            margin: 0 auto; /* 自动水平居中 */
+            padding: 20px; /* 内边距 */
+            background-color: white; /* 背景颜色为白色 */
+            border-radius: 8px; /* 圆角效果 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            box-sizing: border-box; /* 包含 padding 和 border 在内的宽高计算 */
+            display: flex; /* 使用 flex 布局 */
+            flex-direction: column; /* 垂直排列子元素 */
+            justify-content: flex-start; /* 从顶部开始排列 */
+            overflow: auto; /* 防止内容溢出容器 */
         }
-        #search-container {
-            text-align: center;
-            margin-top: 20px;
+        
+        /* 标题样式 */
+        h1, h2 {
+            text-align: center; /* 内容居中 */
+            color: #333; /* 字体颜色 */
         }
+        
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 20px; /* 底部间距 */
+            text-align: center; /* 内容居中 */
+        }
+        
         #search-input {
-            width: 80%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            width: 60%; /* 宽度为容器的 60% */
+            padding: 8px; /* 内边距 */
+            font-size: 16px; /* 字体大小 */
+            border: 1px solid #ccc; /* 边框样式 */
+            border-radius: 4px; /* 边框圆角 */
         }
-        #container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 20px;
-            padding: 0 20px;
-            flex-grow: 1; /* 让内容区尽量扩展 */
+        
+        /* 标签按钮容器样式 */
+        .tags-container {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: space-around; /* 子元素之间均匀分布 */
+            flex-wrap: wrap; /* 允许子元素换行 */
+            margin-bottom: 30px; /* 底部间距 */
         }
-        .bookmark {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            padding: 15px;
-            box-sizing: border-box;
-            transition: transform 0.3s;
+        
+        /* 标签按钮样式 */
+        .tag-button {
+            background-color: #007bff; /* 背景颜色 */
+            color: white; /* 字体颜色 */
+            border: none; /* 去掉边框 */
+            padding: 8px 16px; /* 内边距 */
+            margin: 5px; /* 外边距 */
+            border-radius: 4px; /* 边框圆角 */
+            cursor: pointer; /* 鼠标悬停时显示为指针 */
         }
-        .bookmark:hover {
-            transform: translateY(-5px);
+        
+        .tag-button:hover {
+            background-color: #0056b3; /* 鼠标悬停时改变背景颜色 */
         }
-        .bookmark h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
+        
+        /* 网址卡片样式 */
+        .url-card {
+            background-color: #f9f9f9; /* 背景颜色 */
+            border: 1px solid #ddd; /* 边框样式 */
+            padding: 10px; /* 内边距 */
+            margin: 8px; /* 外边距 */
+            border-radius: 8px; /* 边框圆角 */
+            width: 230px; /* 固定宽度 */
+            box-sizing: border-box; /* 包含 padding 和 border 在内的宽高计算 */
+            vertical-align: top; /* 垂直对齐 */
+            transition: transform 0.2s; /* 鼠标悬停时平滑过渡效果 */
+            max-width: 100%; /* 限制最大宽度 */
+            flex-grow: 1; /* 可伸缩 */
+            flex-basis: 230px; /* 设置卡片基础宽度 */
+            height: auto; /* 高度根据内容自动调整 */
         }
-        .bookmark p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
+        
+        .url-card:hover {
+            transform: scale(1.05); /* 鼠标悬停时放大效果 */
         }
-        .bookmark a {
-            display: inline-block;
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: bold;
+        
+        /* 网址卡片标题样式 */
+        .url-card h3 {
+            margin-top: 0; /* 顶部外边距为 0 */
+            font-size: 16px; /* 字体大小 */
+            word-wrap: break-word; /* 自动换行 */
         }
-        .bookmark a:hover {
-            text-decoration: underline;
+        
+        /* 网址卡片描述样式 */
+        .url-card p {
+            font-size: 14px; /* 字体大小 */
+            color: #555; /* 字体颜色 */
+            height: auto; /* 高度根据内容自动调整 */
+            overflow: hidden; /* 隐藏溢出的内容 */
+            word-wrap: break-word; /* 自动换行 */
         }
+        
+        /* 网址卡片链接样式 */
+        .url-card a {
+            color: #007bff; /* 链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 加粗字体 */
+        }
+        
+        .url-card a:hover {
+            text-decoration: underline; /* 鼠标悬停时加上下划线 */
+        }
+        
+        /* 网址卡片标签样式 */
+        .url-card .tags {
+            margin-top: 10px; /* 上边距 */
+            font-size: 12px; /* 字体大小 */
+            color: #888; /* 字体颜色 */
+            text-align: left; /* 左对齐 */
+        }
+        
+        /* 无结果提示样式 */
+        .no-results {
+            text-align: center; /* 居中显示 */
+            color: #f44336; /* 红色字体 */
+            font-size: 18px; /* 字体大小 */
+            font-weight: bold; /* 加粗字体 */
+        }
+        
+        /* 网址卡片容器样式 */
+        .links-container {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: center; /* 居中显示 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 20px; /* 卡片之间的间距 */
+            margin-top: 20px; /* 上边距 */
+        }
+        
+        #url-list {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: center; /* 居中显示 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 0px; /* 卡片之间的间距 */
+            margin-top: 5px; /* 上边距 */
+        }
+        
+        /* 页脚样式 */
         footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            margin-top: 15px; /* 页脚与内容之间的间距 */
+            text-align: center; /* 内容居中 */
+            font-size: 14px; /* 字体大小 */
+            color: #888; /* 字体颜色 */
+            padding: 10px 0; /* 内边距 */
+            background-color: #f4f4f9; /* 背景颜色 */
+            position: sticky; /* 粘性定位 */
+            bottom: 0; /* 在页面底部 */
+            width: 100%; /* 宽度占满 */
+            left: 0; /* 向左对齐 */
+            background-color: #333; /* 背景颜色 */
+            z-index: 1000; /* 确保页脚位于最上层 */
+            margin-top: auto; /* 保证页脚始终在页面底部 */
         }
-        .search-result {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            font-size: 14px;
+        
+        footer a {
+            color: #007bff; /* 链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
         }
-        .search-result.visible {
-            display: block;
+        
+        footer a:hover {
+            text-decoration: underline; /* 鼠标悬停时加下划线 */
         }
-        @media (max-width: 768px) {
-		    .bookmark {
-		        flex: 1 1 calc(50% - 10px); /* 每行最少显示2个网址，最多4个 */
-		    }
-		}
-		
-		/* 平板端到小桌面端：每行最多显示4个网址 */
-		@media (min-width: 768px) and (max-width: 1024px) {
-		    .bookmark {
-		        flex: 1 1 calc(25% - 20px); /* 每行显示4个网址 */
-		    }
-		}
-        @media (max-width: 768px) {
-            .bookmark {
-                width: 200px;
+        
+        /* 小屏幕调整样式 */
+        @media (max-width: 600px) {
+            .url-card {
+                flex-basis: calc(50% - 20px); /* 每行显示 2 个卡片，留有间距 */
+                min-width: 220px; /* 确保卡片不会太小 */
+            }
+        
+            #url-list {
+                gap: 2px; /* 调整卡片之间的间距 */
             }
         }
+        
+        /* 超小屏幕调整样式 */
+        @media (max-width: 400px) {
+            .url-card {
+                flex-basis: calc(100% - 20px); /* 每行显示 1 个卡片 */
+            }
+        }
+		
+		/* 说明部分样式 */
+		.instructions {
+		    position: fixed;
+			top: 50%; /* 垂直居中 */
+			left: 50%; /* 水平居中 */
+			transform: translate(-50%, -50%); /* 使用 transform 精确居中 */
+			font-size: 16px;
+			color: #333;
+			background-color: #fff;
+			padding: 15px;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			width: 80%;
+			z-index: 10;
+			display: block; /* 默认显示说明 */
+		}
+					
+		.instructions ul {
+			margin: 0;
+			padding-left: 0; /* 去掉左侧内边距 */
+			list-style-type: none; /* 去掉默认的项目符号 */
+		}
+					
+		.instructions li {
+			margin-bottom: 15px; /* 增加每行说明之间的间距 */
+			padding-left: 30px; /* 为每行文字增加左间距 */
+		}
+		
+		.instructions h3 {
+			text-align: center; /* 标题居中 */
+			font-size: 30px;
+			color: red;
+			margin-top: 10px; /* 增加标题的上间距 */
+		}
+					
+		.close-btn {
+			position: absolute;
+			top: 5px;
+			right: 20px;
+			font-size: 20px;
+			color: #888;
+			cursor: pointer;
+		}
+		/* 说明部分样式 */
+
     </style>
 </head>
 <body>
+	
+	<!-- 说明部分 -->
+	<div class="instructions" id="instructions">
+	  <span class="close-btn" id="closeBtn" style="color: red; font-size: 50px;">&times;</span> <!-- 关闭按钮 -->
+	  <h3>温馨提示：</h3>
+	  <ul>
+	    <li>1、由于网页托管于国际服务器，可能会出现加载不出来的问题（该服器很安全，可放心使用）；</li>
+	    <li>2、当页面出现BUG或者打不开时请尝试多刷新几次（刷新20+次都属于正常）；</li>
+	    <li>3、当刷新页面20+次后依然无法打开时可尝试复制网址更换浏览器打开；</li>
+	    <li>4、微信打开时可能会提醒有风险，请忽略，也可能会显示打不开，请尝试多刷新几次就能打开；</li>
+	    <li>5、网页部分内容来自网络，请自行甄别，博主不承担任何风险；</li>
+	  </ul>
+	</div>
+	
+    <div class="container">
+        <h1>影音资源库</h1> <!-- 页面主标题 -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="搜索网址或标签..." oninput="searchUrls()"> <!-- 搜索框，输入时触发搜索 -->
+        </div>
 
-    <h1>音视频网站资源</h1>
-    <h4 style="text-align: center;font-size: 15px;color: #666;font-weight: 400;">当显示不安全时，怕就退出，不怕就点继续访问<br>当显示网页打不开时请看简介里有备用网址，浏览器输入尝试</h4>
+        <div class="tags-container">
+            <div id="tags-list">
+                <!-- 标签按钮会动态生成在这里 -->
+            </div>
+        </div>
 
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="搜索收藏的网址..." onkeyup="searchBookmarks()">
-        <div id="search-result" class="search-result"></div>
+        <div class="links-container">
+            <div id="url-list">
+                <!-- 收藏的网址会动态生成在这里 -->
+            </div>
+        </div>
     </div>
 
-    <div id="container">
-        <!-- 每个网址的展示框 -->
-                
-				<div class="bookmark">
-                    <h3>青花瓷</h3>
-                    <p>全网免费影视资源在线观看，无广告，超流畅，极推荐！-qhcys.com</p>
-                    <a href="https://www.dz42fg0.com/">点这里-去看看</a>
-                </div>
-        		
-				<div class="bookmark">
-        		    <h3>音范丝</h3>
-        		    <p>4k/蓝光原盘 国内外影视资源下载。</p>
-        		    <a href="https://www.yinfans.me/">点这里-去看看</a>
-        		</div>
-        		
-				<div class="bookmark">
-        		    <h3>BV剧院</h3>
-        		    <p>全网免费影视资源在线观看-bvjy.com</p>
-        		    <a href="https://www.5abm5xghu.com/">点这里-去看看</a>
-        		</div>
-        		
-				<div class="bookmark">
-        		    <h3>界影视</h3>
-        		    <p>全网免费影视资源在线观看-jieys.com</p>
-        		    <a href="https://www.64j6vujf5.com/">点这里-去看看</a>
-        		</div>
-        		
-				<div class="bookmark">
-        		    <h3>libvio</h3>
-        		    <p>全网免费影视资源在线观看,👉请记住我们的永久发布页地址libvio.app或libfabu.com👈
-        请发送您所在地区+网络+网址至help@libvio.com获取最新网址！资源问题已经在恢复可以保存网盘观看！</p>
-        		    <a href="https://www.libvio.fun/">点这里-去看看</a>
-        		</div>
-        		
-				<div class="bookmark">
-        		    <h3>豌豆影视</h3>
-        		    <p>手机端/全网免费影视资源在线观看</p>
-        		    <a href="https://wandou3.net">点这里-去看看</a>
-        		</div>
-        		
-				<div class="bookmark">
-        		    <h3>kimivod</h3>
-        		    <p>全网免费影视资源在线观看</p>
-        		    <a href="https://kimivod.com/">点这里-去看看</a>
-        		</div>
-				
-				<div class="bookmark">
-				    <h3>奈飞中文影视</h3>
-				    <p>一个在线的影视资源库，高清级别，播放速度极快，支持app版本</p>
-				    <a href="http://netfly.tv/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>素白白影视</h3>
-				    <p>一个在线的影视资源库，有韩剧、欧美剧等，播放速度快，画质清晰，提供求片留言功能，（网址发布地址：https://subaibai.vip/ 防丢失）</p>
-				    <a href="https://www.subaibaiys.com/">点这里-去看看</a>
-				</div>
-        		
-        		<div class="bookmark">
-        		    <h3>在线之家</h3>
-        		    <p>一个质量很高的且界面简洁的影视资源网站，与其他网站不同的是 菜单添加了韩剧、日剧、泰剧分类，播放速度快画质高清</p>
-        		    <a href="https://www.zxzjhd.com/">点这里-去看看</a>
-        		</div>
-				
-				<div class="bookmark">
-				    <h3>电影先生</h3>
-				    <p>一个资源很丰富的影视资源网站，画质不错，有很多播放源，他的网址很多分别有：DianYi.ng、XianShe.ng、电影先生.com，如果点不开是可以尝试浏览器输入这几个网址尝试（https://dianyi.ng/web.html 这个是电影先生最新网址获取域名，防丢失）</p>
-				    <a href="https://www.dianyi.ng/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>影视资源</h3>
-				    <p>一个在线的影视资源库，自带某瓣评分，响应快（备用网址：dushe02.com、dushe03.com、dushe04.com）</p>
-				    <a href="https://www.dushe1.app/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>爱看机器人</h3>
-				    <p>一个在线的影视资源库</p>
-				    <a href="https://v.ikanbot.com/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>搜狗狗</h3>
-				    <p>一个在线的影视资源库，资源丰富，被下架的影视都能找到，响应极快（域名发布页https://www.jugougou.vip/防丢失)</p>
-				    <a href="http://jugougou.pro/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>电影狗</h3>
-				    <p>一个在线搜索的影视资源库（域名发布页https://www.haodyg.com/防丢失）</p>
-				    <a href="https://www.dyg2024.com/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>可达TV</h3>
-				    <p>线路挺多，高质量视频，电影连续剧综艺动漫少儿短剧</p>
-				    <a href="https://www.kedays.org/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>黑豆短剧</h3>
-				    <p>免费网盘短剧搜索引擎为主的网站。</p>
-				    <a href="https://www.hddj.cc/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>4Kfilm视界</h3>
-				    <p>专业的4K电影下载站,本网站页面简洁,提供4K盘HDR杜比视界电影、美剧、纪录片、动画片伦理片资源等,团队坚持个性与品质,为大家分享优质磁力链接!打造一个快捷交流互动平台</p>
-				    <a href="http://4kfilm.cn/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>高清族</h3>
-				    <p>一个提供全网影视资源下载的影视网站（社区），网站整体结构非常简单，界面清爽，而且也无广告。资源主要以海内外的电影、电视剧、纪录片、动漫为主</p>
-				    <a href="https://www.hdzu.cc/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>樱花动漫</h3>
-				    <p>是一个专注于动漫的门户网站，提供各种动漫资源的信息和链接。（域名发布页https://916dm.fans/防丢失）</p>
-				    <a href="https://www.hdmoli.pro/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>樱花动漫</h3>
-				    <p>是一个专注于动漫的门户网站，提供各种动漫资源的信息和链接。（域名发布页https://dm519.fans/防丢失）</p>
-				    <a href="https://www.dm539.com/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>大米星球</h3>
-				    <p>这个网站主要提供了各种电视剧、电影、动漫和综艺节目的在线观看。内容涵盖了多种类型，包括Netflix新剧、韩国电影、动漫等。
-（域名发布页https://dmxqflix.com/防丢失https://www.dminet.shop/）</p>
-				    <a href="https://damixt.wiki/">点这里-去看看</a>
-				</div>
-				
-				<div class="bookmark">
-				    <h3>熊猫频道</h3>
-				    <p>一个专门看熊猫直播的频道</p>
-				    <a href="https://www.ipanda.com/">点这里-去看看</a>
-				</div>
-				
-        
-                
-                <!-- 这里可以继续添加更多网址 -->
-    </div>
-
+    <!-- 页脚部分 -->
     <footer>
-        <p>© 2024 Kevin的个人网址收藏. 未经许可，禁止转载.</p>
+        © 2025 Kevinludashi 网址收藏. 未经许可，禁止转载. <!-- 页脚版权信息 -->
     </footer>
 
     <script>
-        function searchBookmarks() {
-            var input = document.getElementById('search-input').value.toLowerCase();
-            var bookmarks = document.querySelectorAll('.bookmark');
-            var result = document.getElementById('search-result');
-            var found = false;
+        // 网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
+        const urls = [
+			
+			// 网址数据 卡片
+            {
+                title: "青花瓷影视",
+                link: "https://www.dz42fg0.com/",
+                description: "全网免费影视资源在线观看，无广告，超流畅，极推荐！-qhcys.com。",
+                tags: ["全部", "#在线影视", "#视频"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "音范丝",
+                link: "https://www.yinfans.me/",
+                description: "4k/蓝光原盘 国内外影视资源下载。",
+                tags: ["全部", "#视频", "#4K", "#蓝光", "#下载"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "BV剧院",
+                link: "https://www.5abm5xghu.com/",
+                description: "全网免费影视资源在线观看-bvjy.com。",
+                tags: ["全部", "#在线影视", "#视频"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "界影视",
+                link: "https://www.64j6vujf5.com/",
+                description: "全网免费影视资源在线观看-jieys.com。",
+                tags: ["全部", "#在线影视", "#视频"]
+            },
+			
+			// 网址数据 卡片
+			{
+			    title: "libvio",
+			    link: "https://www.libvio.fun/",
+			    description: "全网免费影视资源在线观看,👉请记住我们的永久发布页地址libvio.app或libfabu.com请发送您所在地区-网络-网址至help@libvio.com获取最新网址！资源问题已经在恢复可以保存网盘观看。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "豌豆影视",
+			    link: "https://wandou3.net",
+			    description: "手机端/全网免费影视资源在线观看。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "kimivod",
+			    link: "https://kimivod.com/",
+			    description: "全网免费影视资源在线观看。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "奈飞中文影视",
+			    link: "http://netfly.tv/",
+			    description: "一个在线的影视资源库，高清级别，播放速度极快，支持app版本。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "素白白影视",
+			    link: "https://www.subaibaiys.com/",
+			    description: "一个在线的影视资源库，有韩剧、欧美剧等，播放速度快，画质清晰，提供求片留言功能，（网址发布地址：https://subaibai.vip/ 防丢失）。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "在线之家",
+			    link: "https://www.zxzjhd.com/",
+			    description: "一个质量很高的且界面简洁的影视资源网站，与其他网站不同的是 菜单添加了韩剧、日剧、泰剧分类，播放速度快画质高清。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "电影先生",
+			    link: "https://www.dianyi.ng/",
+			    description: "一个资源很丰富的影视资源网站，画质不错，有很多播放源，他的网址很多分别有：DianYi.ng、XianShe.ng、电影先生.com，如果点不开是可以尝试浏览器输入这几个网址尝试（https://dianyi.ng/web.html 这个是电影先生最新网址获取域名，防丢失）。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "影视资源",
+			    link: "https://www.dushe1.app/",
+			    description: "一个在线的影视资源库，自带某瓣评分，响应快（备用网址：dushe02.com、dushe03.com、dushe04.com）。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "爱看机器人",
+			    link: "https://v.ikanbot.com/",
+			    description: "一个在线的影视资源库。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "搜狗狗",
+			    link: "http://jugougou.pro/",
+			    description: "一个在线的影视资源库，资源丰富，被下架的影视都能找到，响应极快（域名发布页https://www.jugougou.vip/防丢失)。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "电影狗",
+			    link: "https://www.dyg2024.com/",
+			    description: "线路挺多，高质量视频，电影连续剧综艺动漫少儿短剧。",
+			    tags: ["全部", "#在线影视", "#视频", "#短剧"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "可达TV",
+			    link: "https://www.kedays.org/",
+			    description: "一个在线搜索的影视资源库（域名发布页https://www.haodyg.com/防丢失）。",
+			    tags: ["全部", "#在线影视", "#视频", "#动漫", "#少儿"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "黑豆短剧",
+			    link: "https://www.hddj.cc/",
+			    description: "免费网盘短剧搜索引擎为主的网站。",
+			    tags: ["全部", "#网盘", "#短剧", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "4Kfilm视界",
+			    link: "http://4kfilm.cn/",
+			    description: "专业的4K电影下载站,本网站页面简洁,提供4K盘HDR杜比视界电影、美剧、纪录片、动画片伦理片资源等,团队坚持个性与品质,为大家分享优质磁力链接!打造一个快捷交流互动平台。",
+			    tags: ["全部", "#视频", "#4K", "#下载"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "高清族",
+			    link: "https://www.hdzu.cc/",
+			    description: "一个提供全网影视资源下载的影视网站（社区），网站整体结构非常简单，界面清爽，而且也无广告。资源主要以海内外的电影、电视剧、纪录片、动漫为主。",
+			    tags: ["全部", "#视频", "#动漫", "#下载", "#短剧"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "樱花动漫",
+			    link: "https://www.hdmoli.pro/",
+			    description: "是一个专注于动漫的门户网站，提供各种动漫资源的信息和链接。（域名发布页https://916dm.fans/防丢失）。",
+			    tags: ["全部", "#动漫", "#下载", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "樱花动漫2",
+			    link: "https://damixt.wiki/",
+			    description: "是一个专注于动漫的门户网站，提供各种动漫资源的信息和链接。（域名发布页https://dm519.fans/防丢失）。",
+			    tags: ["全部", "#动漫", "#下载", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "大米星球",
+			    link: "https://www.dm539.com/",
+			    description: "这个网站主要提供了各种电视剧、电影、动漫和综艺节目的在线观看。内容涵盖了多种类型，包括Netflix新剧、韩国电影、动漫等。（域名发布页https://dmxqflix.com/防丢失https://www.dminet.shop/）。",
+			    tags: ["全部", "#在线影视", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "熊猫频道",
+			    link: "https://www.ipanda.com/",
+			    description: "一个专门看熊猫直播的频道。",
+			    tags: ["全部", "#熊猫", "#直播"]
+			},
+			
+        ];
+		// 以上网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
+		
+		
 
-            // 清除之前的搜索结果提示
-            result.innerHTML = '';
-            result.classList.remove('visible');
-
-            bookmarks.forEach(function(bookmark) {
-                var title = bookmark.querySelector('h3').textContent.toLowerCase();
-                var description = bookmark.querySelector('p').textContent.toLowerCase();
-
-                // 检查名称和简介是否包含搜索关键词
-                if (title.includes(input) || description.includes(input)) {
-                    bookmark.style.display = 'block'; // 显示匹配的收藏项
-                    if (!found) {
-                        result.innerHTML = '搜索结果：';
-                        result.classList.add('visible');
-                        found = true;
-                    }
-                    var resultItem = document.createElement('div');
-                    resultItem.innerHTML = '<a href="' + bookmark.querySelector('a').href + '">' + title + '</a>';
-                    result.appendChild(resultItem);
-                } else {
-                    bookmark.style.display = 'none'; // 隐藏不匹配的收藏项
-                }
+        // 渲染标签
+        function renderTags() {
+            const tagsSet = new Set(); // 使用 Set 结构去重标签
+            urls.forEach(url => {
+                url.tags.forEach(tag => {
+                    tagsSet.add(tag); // 将每个标签添加到 Set 中
+                });
             });
 
-            // 如果没有找到匹配项
-            if (!found) {
-                result.innerHTML = '没有找到匹配的结果。';
-                result.classList.add('visible');
+            const tagsList = document.getElementById("tags-list");
+            tagsList.innerHTML = ""; // 清空之前的标签
+
+            tagsSet.forEach(tag => {
+                const button = document.createElement("button");
+                button.classList.add("tag-button");
+                button.textContent = tag;
+                // 点击标签时调用搜索，传入标签作为搜索条件
+                button.onclick = function () {
+                    searchUrls(tag); 
+                };
+                tagsList.appendChild(button);
+            });
+        }
+
+        // 渲染网址列表
+        function renderUrls(searchTerm = '') {
+            const urlList = document.getElementById("url-list");
+            urlList.innerHTML = "";  // 清空当前显示的列表
+
+            const filteredUrls = urls.filter(url => {
+                const searchString = `${url.title} ${url.description} ${url.tags.join(' ')}`.toLowerCase();
+                return searchString.includes(searchTerm.toLowerCase()); // 进行大小写不敏感匹配
+            });
+
+            if (filteredUrls.length === 0) {
+                urlList.innerHTML = "<p class='no-results'>没有找到相关的网址。</p>"; // 没有找到结果时显示提示
+            }
+
+            filteredUrls.forEach(url => {
+                const urlCard = document.createElement("div");
+                urlCard.classList.add("url-card");
+
+                const title = document.createElement("h3");
+                // 将标题链接化，点击标题直接跳转
+                const link = document.createElement("a");
+                link.href = url.link;
+                link.textContent = url.title;
+                link.target = "_blank";  // 新窗口打开链接
+                title.appendChild(link);
+
+                const description = document.createElement("p");
+                description.textContent = url.description;
+
+                const tags = document.createElement("div");
+                tags.classList.add("tags");
+                tags.textContent = `标签: ${url.tags.join(', ')}`;
+
+                urlCard.appendChild(title);
+                urlCard.appendChild(description);
+                urlCard.appendChild(tags);
+
+                urlList.appendChild(urlCard);
+            });
+        }
+
+        // 搜索功能：根据搜索框输入的内容进行过滤
+        function searchUrls(searchTerm = '') {
+            const inputTerm = searchTerm.trim() === '' ? document.getElementById("search-input").value.trim() : searchTerm;
+            if (inputTerm === '') {
+                renderUrls(); // 如果搜索框为空，则显示所有网址
+            } else {
+                renderUrls(inputTerm); // 进行搜索并显示相关的网址
             }
         }
-    </script>
 
+        // 初始化显示标签和网址
+        renderTags();
+        renderUrls(); 
+		
+		// 关闭说明按钮
+			closeBtn.addEventListener('click', () => {
+			instructions.style.display = 'none'; // 隐藏说明部分
+			});
+    </script>
 </body>
 </html>
